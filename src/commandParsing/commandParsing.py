@@ -8,6 +8,14 @@
 
 import sys
 
+from enum import Enum
+
+class Mode(Enum):
+    PREDICT = "predict"
+    TRAIN = "train"
+    TRAIN_SAVE = "train_save"
+    GENERATOR = "generator"
+
 class CommandParsing:
 
     def __init__(self, command: list) -> None:
@@ -16,7 +24,7 @@ class CommandParsing:
     def parse(self, command: list) -> None:
 
         if (len(command) < 2):
-            print("Binary should has at least one argument.")
+            print("Binary should at least has one argument.")
             exit(84)
 
         binaries = {
@@ -34,6 +42,15 @@ class CommandParsing:
 
     def parseAnalyzer(self, command: list) -> None:
         self.displayHelp(command)
+        if (command[1] == "--predict" and len(command) == 4):
+            return [Mode.PREDICT, command[2], command[3]]
+        elif (command[1] == "--train" and len(command) == 4):
+            return [Mode.TRAIN, command[2], command[3]]
+        elif (command[1] == "--train" and len(command) == 6 and command[2] == "--save"):
+            return [Mode.TRAIN_SAVE, command[2], command[3]]
+        else:
+            print("Error: Wrong parameters for ./my_torch_analyzer")
+            exit(84)
 
     def parseGenerator(self, command: list) -> None:
         self.displayHelp(command)
