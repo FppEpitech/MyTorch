@@ -5,7 +5,9 @@ import sys
 from commandParsing.commandParsing import CommandParsing
 
 def main():
-    CommandParsing(sys.argv)
+    parser = CommandParsing()
+    print(parser.parse(sys.argv))
+    #TODO: launch analyzer with parsing result
 
 if __name__ == "__main__":
     main()

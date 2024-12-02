@@ -18,8 +18,8 @@ class Mode(Enum):
 
 class CommandParsing:
 
-    def __init__(self, command: list) -> None:
-        self.parse(command)
+    def __init__(self) -> None:
+        pass
 
     def parse(self, command: list) -> None:
 
@@ -34,7 +34,7 @@ class CommandParsing:
 
         if command[0] in binaries:
             try:
-                binaries[command[0]](command)
+                return binaries[command[0]](command)
             except (IndexError, ValueError):
                 exit(84)
         else:
@@ -47,13 +47,26 @@ class CommandParsing:
         elif (command[1] == "--train" and len(command) == 4):
             return [Mode.TRAIN, command[2], command[3]]
         elif (command[1] == "--train" and len(command) == 6 and command[2] == "--save"):
-            return [Mode.TRAIN_SAVE, command[2], command[3]]
+            return [Mode.TRAIN_SAVE, command[3], command[4], command[5]]
         else:
             print("Error: Wrong parameters for ./my_torch_analyzer")
             exit(84)
 
     def parseGenerator(self, command: list) -> None:
         self.displayHelp(command)
+        if ((len(command) - 1) % 2 == 0):
+            for i in range(2, int((len(command) - 1) / 2) + 3, 2):
+                try:
+                    int(command[i])
+                    if (int(command[i]) <= 0):
+                        raise ValueError
+                except ValueError:
+                    print("Error: Wrong parameters for ./my_torch_analyzer: nb should be int > 0.")
+                    exit(84)
+            command.pop(0)
+            return [Mode.GENERATOR] + [j for j in command]
+        print("Error: Wrong parameters for ./my_torch_analyzer")
+        exit(84)
 
     def displayHelp(self, command: list) -> None:
         if (command[1] != "--help"):
