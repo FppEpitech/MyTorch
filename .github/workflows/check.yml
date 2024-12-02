@@ -1,0 +1,25 @@
+name: Checks
+
+on:
+  push:
+    branches: '**'
+
+jobs:
+  check_program:
+    name: Check program
+    runs-on: ubuntu-latest
+    container:  ghcr.io/epitech/coding-style-checker:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install criterion
+        run: |
+          sudo apt-get install libcriterion-dev gcovr -y
+      - name: Check program
+        run: |
+          make
+      - name: Run tests
+        run: |
+          make ; make tests_run
