@@ -35,6 +35,8 @@ generator_clean:
 	rm -rf $(GENERATOR_NAME)
 	@echo -e "\033[92m Done\033[0m"
 
+clean:
+
 fclean: analyser_clean generator_clean
 
 re:	fclean all
