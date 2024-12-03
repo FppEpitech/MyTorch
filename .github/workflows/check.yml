@@ -1,25 +1,42 @@
-name: Checks
+name: Check Executables
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
-    branches: '**'
+    branches:
+      - main
 
 jobs:
-  check_program:
-    name: Check program
+  check-executables:
     runs-on: ubuntu-latest
-    container:  ghcr.io/epitech/coding-style-checker:latest
+
+    env:
+      EXECUTABLES: "my_torch_generator my_torch_analyzer"
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Install criterion
+
+      - name: Check if files are executable
+        shell: bash
         run: |
-          sudo apt-get install libcriterion-dev gcovr -y
-      - name: Check program
-        run: |
-          make
-      - name: Run tests
-        run: |
-          make ; make tests_run
+              IFS=' '
+              readarray -t files <<<"${{ env.EXECUTABLES }}"
+              return_value=0
+
+              make
+              make clean
+
+              for file in "${files[@]}"
+              do
+                if [ -x "$file" ]
+                then
+                  echo "::notice title="Executable file test", file=$file:: The file $file is an executable"
+                else
+                  echo "::error title="Executable file test", file=$file:: The file $file is not an executable or does not exist"
+                  return_value=1
+                fi
+              done
+              exit $return_value
