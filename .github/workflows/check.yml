@@ -27,7 +27,6 @@ jobs:
               return_value=0
 
               make
-              make clean
 
               for file in "${files[@]}"
               do
