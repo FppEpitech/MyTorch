@@ -1,7 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+
+import sys
+
+from src.commandParsing.commandParsing import CommandParsing
 
 def main():
-    print("Hello, World!\nThis is the generator module.")
+    parser = CommandParsing()
+    print(parser.parse(sys.argv))
+    #TODO: launch generator with parsing result
 
 if __name__ == "__main__":
     main()
