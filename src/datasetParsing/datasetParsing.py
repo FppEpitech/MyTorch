@@ -58,3 +58,5 @@ def processFenStr(line : str, plate):
             else:
                 newRow.append(char)
         plate.append(newRow)
+
+#map to int with power.. robustness..   
