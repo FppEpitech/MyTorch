@@ -13,11 +13,11 @@ class chessSate():
     def __init__(self):
         self.chessPlate = []
         self.move: tuple[int, int] = (-1, -1)
-        self.turn = ''
-        self.castlingrights = ""
+        self.turn : str = ''
+        self.castlingrights : str = ""
         self.targetsquare = ''
-        self.halfmoveclock = -1
-        self.fullmove = -1
+        self.halfmoveclock : int= -1
+        self.fullmove  : int = -1
     def __str__(self):
         return f"plate: {self.chessPlate} move: {self.move} turn: {self.turn} castlingrights: {self.castlingrights} targetsquare: {self.targetsquare} halfmoveclock: {self.halfmoveclock} fullmove: {self.fullmove}"
 
@@ -34,8 +34,8 @@ def parseFile(filePath: str) -> list[chessSate]:
         ret.append(state)
     return ret
 
-
 def parseDataLine(state : chessSate, line : str):
+    line = line.replace('\n', '')
     parsed = line.split(" ")
     plateStrFen = parsed[0]
     state.turn = parsed[1]
@@ -44,14 +44,13 @@ def parseDataLine(state : chessSate, line : str):
     state.halfmoveclock = parsed[4]
     state.fullmove = parsed[5]
     if (len(parsed) > 6):
-        state.move = (parsed[6], parsed[7])
+        state.move = (int(parsed[6]), int(parsed[7]))
     processFenStr(plateStrFen, state.chessPlate)
-
 
 def processFenStr(line : str, plate):
     plateRows : list[str] = line.split("/")
     for row in plateRows:
-        newRow = []
+        newRow : list[list] = []
         for char in row:
             if char.isnumeric():
                     for i in range(int(char)):
@@ -59,7 +58,3 @@ def processFenStr(line : str, plate):
             else:
                 newRow.append(char)
         plate.append(newRow)
-
-
-for data in parseFile("test.txt"):
-    print(data)
