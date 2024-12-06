@@ -38,8 +38,8 @@ mapOutcomeInt = {
 class chessSate():
     def __init__(self):
         self.chessPlate = []
-        self.move: string = None
-        self.turn : str = ''
+        self.move: int = None
+        self.turn : int = 0
         self.castlingrights : str = ""
         self.targetsquare = ''
         self.halfmoveclock : int= -1
@@ -63,21 +63,34 @@ def parseFile(filePath: str) -> list[chessSate]:
 def parseDataLine(state : chessSate, line : str):
     line = line.replace('\n', '')
     parsed = line.split(" ")
+    if len(parsed) < 6:
+        print("LACKING ARGUMENTS IN DATASET")
+        sys.exit(84)
     plateStrFen = parsed[0]
-    state.turn = parsed[1]
+    state.turn = turnToInt(parsed[1])
     state.castlingrights = parsed[2]
     state.targetsquare = parsed[3]
     state.halfmoveclock = parsed[4]
     state.fullmove = parsed[5]
     if (len(parsed) > 6):
-        state.move = parsed[6] + " " +  parsed[7]
+        tmp = parsed[6] + " " +  parsed[7]
+        if (tmp not in mapOutcomeInt.keys()):
+            print("INVALID MOVE IN DATASET")
+            sys.exit(84)
+        state.move = outcomeToInt(tmp)
     processFenStr(plateStrFen, state.chessPlate)
 
 def processFenStr(line : str, plate):
     plateRows : list[str] = line.split("/")
+    if len(plateRows) != 8:
+        print("INVALID NUM ROWS IN DATASET")
+        sys.exit(84)
     for row in plateRows:
         newRow : list[list] = []
         for char in row:
+            if char not in "prnbkqPRNBKQ" and not char.isnumeric():
+                print("INVALID CHAR FOUND IN DATASET")
+                sys.exit(84)
             if char.isnumeric():
                     for i in range(int(char)):
                         newRow.append(charToIntChessplate('.'))
