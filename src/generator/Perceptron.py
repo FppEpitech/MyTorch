@@ -16,14 +16,13 @@ class Perceptron:
         self.learning_rate = learning_rate
         self.activation_function = sigmoid
 
-    def save_state(self, filename="perceptron_state.json") -> None:
+    def save_state(self, filename="perceptron_state.json") -> str:
         state = {
             "weights": self.weights,
             "bias": self.bias,
             "learning_rate": self.learning_rate
         }
-        with open(filename, "w") as f:
-            json.dump(state, f)
+        return json.dumps(state)
 
     def update_weights(self, inputs, target):
         prediction = self.predict(inputs)
