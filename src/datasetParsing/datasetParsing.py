@@ -9,10 +9,36 @@
 import string
 import sys
 
+mapTurnInt = {
+    "w": -1,
+    "b": 1
+}
+
+mapCharToIntPlate = {
+    ".": 0,
+    "p": 1,
+    "r": 2,
+    "n": 3,
+    "b": 4,
+    "k": 5,
+    "q": 6
+}
+
+mapOutcomeInt = {
+    # "Checkmate": 1,
+    "Checkmate Black": 1,
+    "Checkmate White": 2,
+    "Stalemate": 3,
+    "Nothing": 4,
+    "Check White": 5,
+    "Check Black": 6,
+    # "Check": 5,
+}
+
 class chessSate():
     def __init__(self):
         self.chessPlate = []
-        self.move: tuple[int, int] = (-1, -1)
+        self.move: string = None
         self.turn : str = ''
         self.castlingrights : str = ""
         self.targetsquare = ''
@@ -44,7 +70,7 @@ def parseDataLine(state : chessSate, line : str):
     state.halfmoveclock = parsed[4]
     state.fullmove = parsed[5]
     if (len(parsed) > 6):
-        state.move = (int(parsed[6]), int(parsed[7]))
+        state.move = parsed[6] + " " +  parsed[7]
     processFenStr(plateStrFen, state.chessPlate)
 
 def processFenStr(line : str, plate):
@@ -54,9 +80,26 @@ def processFenStr(line : str, plate):
         for char in row:
             if char.isnumeric():
                     for i in range(int(char)):
-                        newRow.append('.')
+                        newRow.append(charToIntChessplate('.'))
             else:
-                newRow.append(char)
+                newRow.append(charToIntChessplate(char))
         plate.append(newRow)
 
-#map to int with power.. robustness..   
+def charToIntChessplate(char : str) -> int:
+
+    res : int = 0
+    if (char in mapCharToIntPlate.keys()):
+        res = mapCharToIntPlate[char.lower()]
+    if (char.isupper()):
+        res = -res
+    return res
+
+def turnToInt(turn : str) -> int:
+    return mapTurnInt[turn]
+
+def outcomeToInt(outcome : str) -> int:
+    return mapOutcomeInt[outcome]
+
+for i in parseFile("tests/datasets/check/10_pieces.txt"):
+    print(i)
+#robustness & perfectionne all - logic later
