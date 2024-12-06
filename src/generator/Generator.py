@@ -1,13 +1,13 @@
-from Perceptron import Perceptron
+from src.generator.Perceptron import Perceptron
 import json
 
 class Generator :
 
-    def __init__(self, nb_input_values : int, nb_input : int, hidden_list : list[int]) -> None:
+    def __init__(self, nb_input_values : int, nb_layouts : int, hidden_list : list[int]) -> None:
         self.neural_network : list[list[Perceptron]] = []
         self.nb_input_values : int = nb_input_values
         self.nb_layouts : int = len(hidden_list) + 1
-        self.init_network(nb_input_values, nb_input, hidden_list)
+        self.init_network(nb_input_values, nb_layouts, hidden_list)
 
     def init_network(self, nb_input_values : int, nb_input : int, hidden_list : list[int]) -> None:
         self.neural_network.append([Perceptron(nb_input_values)])
@@ -25,7 +25,7 @@ class Generator :
 
         self.neural_network.append([Perceptron(nb_last_input)])
 
-    def save_network(self, filepath : str = "neural_network.nn") -> None:
+    def save_network(self, filepath : str = "neural_network_1.nn") -> None:
         network_data = {
             "nb_input_values": self.nb_input_values,
             "nb_layouts": self.nb_layouts,
