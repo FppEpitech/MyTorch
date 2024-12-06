@@ -164,3 +164,4 @@ cython_debug/
 # binary files
 my_torch_analyzer
 my_torch_generator
+*.nn
