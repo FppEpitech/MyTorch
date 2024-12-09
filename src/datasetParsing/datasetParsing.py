@@ -10,7 +10,7 @@ import string
 import sys
 
 mapTurnInt = {
-    "w": -1,
+    "w": 0,
     "b": 1
 }
 
@@ -24,43 +24,43 @@ mapCharToIntPlate = {
     "q": 6
 }
 
-mapOutcomeInt = {
+mapOutcomeList = {
     # "Checkmate": 1,
-    "Checkmate Black": 1,
-    "Checkmate White": 2,
-    "Stalemate": 3,
-    "Nothing": 4,
-    "Check White": 5,
-    "Check Black": 6,
+    "Checkmate Black": [1,0,0,0,0,0],
+    "Checkmate White": [0,1,0,0,0,0],
+    "Stalemate": [0,0,1,0,0,0],
+    "Nothing": [0,0,0,1,0,0],
+    "Check White": [0,0,0,0,1,0],
+    "Check Black": [0,0,0,0,0,1],
     # "Check": 5,
 }
 
-class chessSate():
+class chessState():
     def __init__(self):
         self.chessPlate = []
-        self.move: int = None
+        self.outcome: list = None
         self.turn : int = 0
         self.castlingrights : str = ""
         self.targetsquare = ''
         self.halfmoveclock : int= -1
         self.fullmove  : int = -1
     def __str__(self):
-        return f"plate: {self.chessPlate} move: {self.move} turn: {self.turn} castlingrights: {self.castlingrights} targetsquare: {self.targetsquare} halfmoveclock: {self.halfmoveclock} fullmove: {self.fullmove}"
+        return f"plate: {self.chessPlate} outcome: {self.outcome} turn: {self.turn} castlingrights: {self.castlingrights} targetsquare: {self.targetsquare} halfmoveclock: {self.halfmoveclock} fullmove: {self.fullmove}"
 
-def parseFile(filePath: str) -> list[chessSate]:
+def parseFile(filePath: str) -> list[chessState]:
     file = open(filePath, "r")
     if file is None:
         return None
     lines = file.readlines()
     file.close()
-    ret : list[chessSate] = []
+    ret : list[chessState] = []
     for dataLine in lines:
-        state = chessSate()
+        state = chessState()
         parseDataLine(state, dataLine)
         ret.append(state)
     return ret
 
-def parseDataLine(state : chessSate, line : str):
+def parseDataLine(state : chessState, line : str):
     line = line.replace('\n', '')
     parsed = line.split(" ")
     if len(parsed) < 6:
@@ -74,10 +74,10 @@ def parseDataLine(state : chessSate, line : str):
     state.fullmove = parsed[5]
     if (len(parsed) > 6):
         tmp = parsed[6] + " " +  parsed[7]
-        if (tmp not in mapOutcomeInt.keys()):
+        if (tmp not in mapOutcomeList.keys()):
             print("INVALID MOVE IN DATASET")
             sys.exit(84)
-        state.move = outcomeToInt(tmp)
+        state.outcome = outcomeToList(tmp)
     processFenStr(plateStrFen, state.chessPlate)
 
 def processFenStr(line : str, plate):
@@ -110,8 +110,8 @@ def charToIntChessplate(char : str) -> int:
 def turnToInt(turn : str) -> int:
     return mapTurnInt[turn]
 
-def outcomeToInt(outcome : str) -> int:
-    return mapOutcomeInt[outcome]
+def outcomeToList(outcome : str) -> list:
+    return mapOutcomeList[outcome]
 
 # for i in parseFile("tests/datasets/check/10_pieces.txt"):
 #     print(i)
