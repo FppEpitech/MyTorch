@@ -113,6 +113,6 @@ def turnToInt(turn : str) -> int:
 def outcomeToInt(outcome : str) -> int:
     return mapOutcomeInt[outcome]
 
-for i in parseFile("tests/datasets/check/10_pieces.txt"):
-    print(i)
+# for i in parseFile("tests/datasets/check/10_pieces.txt"):
+#     print(i)
 #robustness & perfectionne all - logic later
