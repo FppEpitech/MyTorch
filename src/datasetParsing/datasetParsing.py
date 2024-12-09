@@ -35,7 +35,7 @@ mapOutcomeList = {
     # "Check": 5,
 }
 
-class chessSate():
+class chessState():
     def __init__(self):
         self.chessPlate = []
         self.outcome: list = None
@@ -47,20 +47,20 @@ class chessSate():
     def __str__(self):
         return f"plate: {self.chessPlate} outcome: {self.outcome} turn: {self.turn} castlingrights: {self.castlingrights} targetsquare: {self.targetsquare} halfmoveclock: {self.halfmoveclock} fullmove: {self.fullmove}"
 
-def parseFile(filePath: str) -> list[chessSate]:
+def parseFile(filePath: str) -> list[chessState]:
     file = open(filePath, "r")
     if file is None:
         return None
     lines = file.readlines()
     file.close()
-    ret : list[chessSate] = []
+    ret : list[chessState] = []
     for dataLine in lines:
-        state = chessSate()
+        state = chessState()
         parseDataLine(state, dataLine)
         ret.append(state)
     return ret
 
-def parseDataLine(state : chessSate, line : str):
+def parseDataLine(state : chessState, line : str):
     line = line.replace('\n', '')
     parsed = line.split(" ")
     if len(parsed) < 6:
