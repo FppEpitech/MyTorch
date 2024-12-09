@@ -37,8 +37,6 @@ class multiNeuron:
 
     def train(self, inputs : list[list[int]], targets : list[int], max_iteration=10000) -> None:
         for iteration in range(max_iteration):
-            print("\r", iteration, end="")
-
             for i in range(len(targets)):
                 prediction : int = self.predict(inputs[i])
                 if (prediction != targets[i]):
