@@ -8,6 +8,7 @@
 
 import string
 import sys
+import os
 
 mapTurnInt = {
     "w": 0,
@@ -48,6 +49,8 @@ class chessState():
         return f"plate: {self.chessPlate} outcome: {self.outcome} turn: {self.turn} castlingrights: {self.castlingrights} targetsquare: {self.targetsquare} halfmoveclock: {self.halfmoveclock} fullmove: {self.fullmove}"
 
 def parseFile(filePath: str) -> list[chessState]:
+    if not os.path.isfile(filePath):
+        exit(84)
     file = open(filePath, "r")
     if file is None:
         return None
@@ -73,7 +76,9 @@ def parseDataLine(state : chessState, line : str):
     state.halfmoveclock = parsed[4]
     state.fullmove = parsed[5]
     if (len(parsed) > 6):
-        tmp = parsed[6] + " " +  parsed[7]
+        tmp = parsed[6]
+        if (len(parsed) > 7):
+            tmp += " " +  parsed[7]
         if (tmp not in mapOutcomeList.keys()):
             print("INVALID MOVE IN DATASET")
             sys.exit(84)
