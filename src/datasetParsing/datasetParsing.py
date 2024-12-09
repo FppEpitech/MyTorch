@@ -101,7 +101,7 @@ def processFenStr(line : str, plate):
 def charToIntChessplate(char : str) -> int:
 
     res : int = 0
-    if (char in mapCharToIntPlate.keys()):
+    if (char.lower() in mapCharToIntPlate.keys()):
         res = mapCharToIntPlate[char.lower()]
     if (char.isupper()):
         res = -res
