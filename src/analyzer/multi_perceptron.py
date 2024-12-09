@@ -1,32 +1,18 @@
 
-from perceptron import *
+from src.analyzer.perceptron import *
+from src.datasetParsing.datasetParsing import chessState
 
 class multiNeuron:
 
-    def __init__(self, nb_input_values : int, nb_input : int, hidden_list : list[int]) -> None:
+    def __init__(self, loading_file: str) -> None:
         self.neural_network : list[list[Perceptron]] = []
-        self.init_network(nb_input_values, nb_input, hidden_list)
+        self.init_network(loading_file)
 
-    def init_network(self, nb_input_values : int, nb_input : int, hidden_list : list[int]) -> None:
-        # First layer
-        self.neural_network.append([Perceptron(nb_input_values)])
-        for i in range(nb_input - 1):
-            self.neural_network[0].append(Perceptron(nb_input_values))
+    def init_network(self, loading_file: str) -> None:
+        #TODO: @Kiki implement the creation of the mlp thanks to a loading file
+        pass
 
-        # Hidden layers
-        nb_last_input : int = nb_input
-        layer_iterator : int = 1
-        for i in hidden_list:
-            self.neural_network.append([Perceptron(nb_last_input)])
-            for j in range(i - 1):
-                self.neural_network[layer_iterator].append(Perceptron(nb_last_input))
-            nb_last_input = i
-            layer_iterator += 1
-
-        # Output layer
-        self.neural_network.append([Perceptron(nb_last_input)])
-
-    def predict(self, input : list[int]) -> int:
+    def predict(self, input : chessState) -> int:
         last_inputs : list[int] = []
         for layer in self.neural_network:
             last_inputs = []
