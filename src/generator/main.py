@@ -16,8 +16,6 @@ def main():
     pcf.parse()
     configFile = pcf.get_config()
 
-    print(configFile)
-
     generator = Generator(configFile['nb_inputs'], configFile['neurons_per_layer'], configFile['activation_functions'], configFile['learning_rate'], configFile['nb_output_neurons'])
 
     filename = arguments[1].split('.')[0]
