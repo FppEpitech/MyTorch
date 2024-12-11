@@ -7,6 +7,8 @@ from src.commandParsing.commandParsing import *
 from src.analyzer.multi_perceptron import multiNeuron
 from src.datasetParsing.datasetParsing import *
 
+PERIOD = 100
+
 def display_result(outputs : list[int]) -> None:
     if (len(outputs) != 6):
         exit(0)
@@ -30,13 +32,21 @@ def main():
         chessParsing = parseFile(command[2])
         for board_state in chessParsing:
             board : list[int] = [y for x in board_state.chessPlate for y in x]
-            outcome : list[int] = [i for i in board_state.outcome]
-            input = board + outcome + [board_state.turn, board_state.castlingrights, board_state.targetsquare, board_state.halfmoveclock, board_state.fullmove]
+            input = board + [board_state.turn, board_state.castlingrights, board_state.targetsquare, board_state.halfmoveclock, board_state.fullmove]
             outputs : list[int] = mlp.predict(input)
             display_result(outputs)
 
-    else:
-        print("train")
+    elif command[0] == Mode.TRAIN:
+        mlp = multiNeuron(command[1])
+        chessParsing = parseFile(command[2])
+        inputs : list[list] = []
+        targets : list[list[int]] = []
+        for board_state in chessParsing:
+            board : list[int] = [y for x in board_state.chessPlate for y in x]
+            targets.append(board_state.outcome)
+            input = board + [board_state.turn, board_state.castlingrights, board_state.targetsquare, board_state.halfmoveclock, board_state.fullmove]
+            inputs.append(input)
+        mlp.train(inputs, targets, PERIOD)
 
 if __name__ == "__main__":
     main()

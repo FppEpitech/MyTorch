@@ -12,29 +12,53 @@ class multiNeuron:
         #TODO: @Kiki implement the creation of the mlp thanks to a loading file
         pass
 
-    def predict(self, input : chessState) -> list[int]:
+    def predict(self, input : list) -> list[int]:
         last_inputs : list[int] = []
         for layer in self.neural_network:
             last_inputs = []
             for neuron in layer:
                 last_inputs.append(neuron.predict(input))
             input = last_inputs
-        return input
 
-    def train(self, inputs : list[list[int]], targets : list[int], max_iteration=10000) -> None:
+        if last_inputs == []:
+            return []
+        max_value = max(last_inputs)
+        max_index = last_inputs.index(max_value)
+        result = [1 if i == max_index else 0 for i in range(len(last_inputs))]
+        return result
+
+    def train(self, inputs : list[list], targets : list[int], max_iteration=10000) -> None:
+
+        total : int = 0
+        total_good : int = 0
+
         for iteration in range(max_iteration):
             for i in range(len(targets)):
                 prediction : int = self.predict(inputs[i])
+                total += 1
                 if (prediction != targets[i]):
+                    print(f"\033[31m{iteration}: {prediction} - {targets[i]}\033[0m")
                     self.update_parameters(prediction, targets[i])
+                else:
+                    total_good += 1
+                    print(f"\033[32m{iteration}: {prediction} - {targets[i]}\033[0m")
+        print("============================")
+        if (total != 0):
+            print(f"result : {100 * total_good / total}%")
+        else:
+            print(f"result : 0 tests trained.")
 
     def update_parameters(self, prediction: int, target: int) -> None:
-        quadratic_error: float = target - prediction
-        output_delta: float = quadratic_error * sigmoid_derivative(prediction)
+
+        if len(prediction) != 6:
+            print("Error: length of prediction output not equal to 6.")
+            exit(84)
 
         output_layer = self.neural_network[-1]
         deltas: list[float] = []
-        for neuron in output_layer:
+        for i, neuron in enumerate(output_layer):
+            quadratic_error: float = target[i] - prediction[i]
+            output_delta: float = quadratic_error * sigmoid_derivative(prediction[i])
             for weight_index in range(len(neuron.weights)):
                 neuron.weights[weight_index] += neuron.learning_rate * output_delta * neuron.last_inputs[weight_index]
             neuron.bias += neuron.learning_rate * output_delta
