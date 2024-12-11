@@ -31,10 +31,7 @@ class Generator :
 
     def save_network(self, filepath : str = "neural_network_1.nn") -> None:
         network_data = {
-            "nb_input_values": self.nb_input_values,
-            "nb_layouts": self.nb_layouts,
             "learning_rate": self.learning_rate,
-            "nb_output_neurons": self.nb_output_neurons,
             "layouts": [
                         [
                             json.loads(perceptron.save_state()) for perceptron in layout

@@ -2,7 +2,7 @@ class ParseConfFile:
     def __init__(self, config_file: str):
         self.config_file : str = config_file
         self.nb_inputs : int = 0
-        self.nb_layouts : int = 0
+        self.nb_layers : int = 0
         self.nb_output_neurons : int = 0
         self.learning_rate : float = 0.0
         self.neurons_per_layer : list[int] = []
@@ -21,17 +21,17 @@ class ParseConfFile:
 
                     if key == "nb_inputs":
                         self.nb_inputs = int(value)
-                    elif key == "nb_layouts":
-                        self.nb_layouts = int(value)
-                        self.neurons_per_layer = [0] * self.nb_layouts
-                        self.activation_functions = [""] * self.nb_layouts
+                    elif key == "nb_layers":
+                        self.nb_layers = int(value)
+                        self.neurons_per_layer = [0] * self.nb_layers
+                        self.activation_functions = [""] * self.nb_layers
                     elif key == "learning_rate" :
                         self.learning_rate = float(value)
                     elif key == "nb_output_neurons":
                         self.nb_output_neurons = int(value)
                     elif key.startswith("nb_neuron_layout_"):
                         layout_index = int(key.split("_")[-1]) - 1
-                        if layout_index < self.nb_layouts:
+                        if layout_index < self.nb_layers:
                             values = value.split(",")
                             neuron_count = int(values[0].strip())
                             activation_function = values[1].strip() if len(values) > 1 else None
@@ -48,7 +48,7 @@ class ParseConfFile:
     def get_config(self):
         return {
             "nb_inputs": self.nb_inputs,
-            "nb_layouts": self.nb_layouts,
+            "nb_layers": self.nb_layers,
             "nb_output_neurons": self.nb_output_neurons,
             "learning_rate": self.learning_rate,
             "neurons_per_layer": self.neurons_per_layer,
