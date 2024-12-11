@@ -9,9 +9,9 @@ def sigmoid_derivative(x):
     return x * (1 - x)
 
 class Perceptron:
-    def __init__(self, nb_inputs, learning_rate=0.01) -> None:
-        self.weights = [random.uniform(-1, 1) for _ in range(nb_inputs)]
-        self.bias = random.uniform(-1, 1)
+    def __init__(self, learning_rate : int, weights : list[int], bias : int) -> None:
+        self.weights = weights
+        self.bias = bias
         self.learning_rate = learning_rate
         self.activation_function = sigmoid
         self.last_activation = 0
