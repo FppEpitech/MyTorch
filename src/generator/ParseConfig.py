@@ -1,9 +1,12 @@
 class ParseConfFile:
     def __init__(self, config_file: str):
-        self.config_file = config_file
-        self.nb_inputs = 0
-        self.nb_layouts = 0
-        self.neurons_per_layer = []
+        self.config_file : str = config_file
+        self.nb_inputs : int = 0
+        self.nb_layouts : int = 0
+        self.nb_output_neurons : int = 0
+        self.learning_rate : float = 0.0
+        self.neurons_per_layer : list[int] = []
+        self.activation_functions : list[str] = []
 
     def parse(self):
         try:
@@ -21,10 +24,21 @@ class ParseConfFile:
                     elif key == "nb_layouts":
                         self.nb_layouts = int(value)
                         self.neurons_per_layer = [0] * self.nb_layouts
+                        self.activation_functions = [""] * self.nb_layouts
+                    elif key == "learning_rate" :
+                        self.learning_rate = float(value)
+                    elif key == "nb_output_neurons":
+                        self.nb_output_neurons = int(value)
                     elif key.startswith("nb_neuron_layout_"):
                         layout_index = int(key.split("_")[-1]) - 1
-                        if (layout_index < self.nb_layouts) :
-                            self.neurons_per_layer[layout_index] = int(value)
+                        if layout_index < self.nb_layouts:
+                            values = value.split(",")
+                            neuron_count = int(values[0].strip())
+                            activation_function = values[1].strip() if len(values) > 1 else None
+
+                            self.neurons_per_layer[layout_index] = neuron_count
+                            if activation_function:
+                                self.activation_functions[layout_index] = activation_function
 
         except FileNotFoundError:
             print(f"Le fichier de configuration '{self.config_file}' n'existe pas.")
@@ -35,5 +49,8 @@ class ParseConfFile:
         return {
             "nb_inputs": self.nb_inputs,
             "nb_layouts": self.nb_layouts,
-            "neurons_per_layer": self.neurons_per_layer
+            "nb_output_neurons": self.nb_output_neurons,
+            "learning_rate": self.learning_rate,
+            "neurons_per_layer": self.neurons_per_layer,
+            "activation_functions": self.activation_functions
         }
