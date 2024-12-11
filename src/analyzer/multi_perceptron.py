@@ -1,6 +1,7 @@
-
 from src.analyzer.perceptron import *
 from src.datasetParsing.datasetParsing import chessState
+
+import json
 
 class multiNeuron:
 
@@ -9,8 +10,22 @@ class multiNeuron:
         self.init_network(loading_file)
 
     def init_network(self, loading_file: str) -> None:
-        #TODO: @Kiki implement the creation of the mlp thanks to a loading file
-        pass
+        with open(loading_file, "r") as file:
+            json_data = json.load(file)
+
+        learning_rate : int = json_data["learning_rate"]
+        layouts : list[list[dict]] = json_data["layouts"]
+
+        index : int = 0
+        for layout in layouts:
+            weights : list[int] = layout[0]["weights"]
+            bias : int = layout[0]["bias"]
+            self.neural_network.append([Perceptron(learning_rate, weights, bias)])
+            for i in range(len(layout) - 1):
+                weights = layout[i]["weights"]
+                bias = layout[i]["bias"]
+                self.neural_network[index].append(Perceptron(learning_rate, layout[i]["weights"], layout[i]["bias"]))
+            index += 1
 
     def predict(self, input : list) -> list[int]:
         last_inputs : list[int] = []
