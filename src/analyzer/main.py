@@ -47,6 +47,24 @@ def main():
             input = board + [board_state.turn, board_state.castlingrights, board_state.targetsquare, board_state.halfmoveclock, board_state.fullmove]
             inputs.append(input)
         mlp.train(inputs, targets, PERIOD)
+        # mlp.save(command[1]) TODO : save the MLP in the file
+
+    elif command[0] == Mode.TRAIN_SAVE:
+        mlp = multiNeuron(command[2])
+        chessParsing = parseFile(command[3])
+        inputs : list[list] = []
+        targets : list[list[int]] = []
+        for board_state in chessParsing:
+            board : list[int] = [y for x in board_state.chessPlate for y in x]
+            targets.append(board_state.outcome)
+            input = board + [board_state.turn, board_state.castlingrights, board_state.targetsquare, board_state.halfmoveclock, board_state.fullmove]
+            inputs.append(input)
+        mlp.train(inputs, targets, PERIOD)
+        # mlp.save(command[1]) TODO : save the MLP in the file
+
+    else:
+        print("Error: Wrong mode.")
+        exit(84)
 
 if __name__ == "__main__":
     main()
