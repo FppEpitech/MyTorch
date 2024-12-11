@@ -1,4 +1,4 @@
-from generator.PerceptronLite import PerceptronLite
+from src.generator.PerceptronLite import PerceptronLite
 import json
 
 class Generator :
