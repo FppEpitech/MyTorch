@@ -73,8 +73,8 @@ def parseDataLine(state : chessState, line : str):
     state.turn = turnToInt(parsed[1])
     state.castlingrights = parsed[2]
     state.targetsquare = parsed[3]
-    state.halfmoveclock = parsed[4]
-    state.fullmove = parsed[5]
+    state.halfmoveclock = int(parsed[4])
+    state.fullmove = int(parsed[5])
     if (len(parsed) > 6):
         tmp = parsed[6]
         if (len(parsed) > 7):

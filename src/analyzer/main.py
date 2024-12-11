@@ -32,7 +32,7 @@ def main():
         chessParsing = parseFile(command[2])
         for board_state in chessParsing:
             board : list[int] = [y for x in board_state.chessPlate for y in x]
-            input = board + [board_state.turn, board_state.castlingrights, board_state.targetsquare, board_state.halfmoveclock, board_state.fullmove]
+            input = board + [board_state.turn, board_state.halfmoveclock, board_state.fullmove]
             outputs : list[int] = mlp.predict(input)
             display_result(outputs)
 
@@ -44,7 +44,7 @@ def main():
         for board_state in chessParsing:
             board : list[int] = [y for x in board_state.chessPlate for y in x]
             targets.append(board_state.outcome)
-            input = board + [board_state.turn, board_state.castlingrights, board_state.targetsquare, board_state.halfmoveclock, board_state.fullmove]
+            input = board + [board_state.turn, board_state.halfmoveclock, board_state.fullmove]
             inputs.append(input)
         mlp.train(inputs, targets, PERIOD)
         # mlp.save(command[1]) TODO : save the MLP in the file
@@ -57,7 +57,7 @@ def main():
         for board_state in chessParsing:
             board : list[int] = [y for x in board_state.chessPlate for y in x]
             targets.append(board_state.outcome)
-            input = board + [board_state.turn, board_state.castlingrights, board_state.targetsquare, board_state.halfmoveclock, board_state.fullmove]
+            input = board + [board_state.turn, board_state.halfmoveclock, board_state.fullmove]
             inputs.append(input)
         mlp.train(inputs, targets, PERIOD)
         # mlp.save(command[1]) TODO : save the MLP in the file

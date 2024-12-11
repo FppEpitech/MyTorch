@@ -17,7 +17,6 @@ class Generator :
         nb_last_input : int = nb_inputs
         layer_iterator : int = 0
 
-        print(layers_nb_neurons)
         for nb_neurons_in_layer in layers_nb_neurons:
             self.neural_network.append([PerceptronLite(nb_last_input, layers_activation_functions[layer_iterator])])
             for _ in range(nb_neurons_in_layer - 1):
