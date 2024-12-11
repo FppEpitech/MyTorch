@@ -20,11 +20,13 @@ class multiNeuron:
         for layout in layouts:
             weights : list[int] = layout[0]["weights"]
             bias : int = layout[0]["bias"]
-            self.neural_network.append([Perceptron(learning_rate, weights, bias)])
+            activation_function : str = layout[0]["activation_function"]
+            self.neural_network.append([Perceptron(learning_rate, weights, bias, activation_function)])
             for i in range(len(layout) - 1):
                 weights = layout[i]["weights"]
                 bias = layout[i]["bias"]
-                self.neural_network[index].append(Perceptron(learning_rate, layout[i]["weights"], layout[i]["bias"]))
+                activation_function = layout[0]["activation_function"]
+                self.neural_network[index].append(Perceptron(learning_rate, weights, bias, activation_function))
             index += 1
 
     def predict(self, input : list) -> list[int]:
