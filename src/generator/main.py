@@ -16,11 +16,11 @@ def main():
     pcf.parse()
     configFile = pcf.get_config()
 
-    generator = Generator(configFile['nb_inputs'], configFile['nb_layouts'], configFile['neurons_per_layer'])
+    generator = Generator(configFile['nb_inputs'], configFile['nb_layouts'], configFile['neurons_per_layer'], configFile['activation_functions'], configFile['learning_rate'], configFile['nb_output_neurons'])
 
     filename = arguments[1].split('.')[0]
-
     nb_files_to_create = int(arguments[2])
+
     for i in range(nb_files_to_create) :
         current_filename = filename + '_' + str(i + 1) + '.nn'
         generator.save_network(current_filename)
