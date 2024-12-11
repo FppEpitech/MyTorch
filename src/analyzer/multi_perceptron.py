@@ -12,14 +12,14 @@ class multiNeuron:
         #TODO: @Kiki implement the creation of the mlp thanks to a loading file
         pass
 
-    def predict(self, input : chessState) -> int:
+    def predict(self, input : chessState) -> list[int]:
         last_inputs : list[int] = []
         for layer in self.neural_network:
             last_inputs = []
             for neuron in layer:
                 last_inputs.append(neuron.predict(input))
             input = last_inputs
-        return input[0]
+        return input
 
     def train(self, inputs : list[list[int]], targets : list[int], max_iteration=10000) -> None:
         for iteration in range(max_iteration):
