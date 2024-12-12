@@ -1,3 +1,4 @@
+import copy
 from src.analyzer.perceptron import *
 from src.datasetParsing.datasetParsing import chessState
 
@@ -79,9 +80,17 @@ class multiNeuron:
         for i, neuron in enumerate(output_layer):
             quadratic_error: float = target[i] - prediction[i]
             output_delta: float = quadratic_error * sigmoid_derivative(prediction[i])
+            if (output_delta > 0):
+                print("OUTPUT DELTA BORDEL FJKDQLMFJDKLQFMJD")
+            keepweights = neuron.weights.copy()
             for weight_index in range(len(neuron.weights)):
                 neuron.weights[weight_index] += neuron.learning_rate * output_delta * neuron.last_inputs[weight_index]
+            if (neuron.weights != keepweights):
+                print("WEIGHTS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
+            keep = neuron.bias
             neuron.bias += neuron.learning_rate * output_delta
+            if (neuron.bias != keep):
+                print("BIAS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
             deltas.append(output_delta)
 
         for layer_index in range(len(self.neural_network) - 2, -1, -1):
@@ -97,9 +106,15 @@ class multiNeuron:
                 )
                 delta = error * sigmoid_derivative(neuron.last_activation)
                 new_deltas.append(delta)
+                keepweights = neuron.weights.copy()
                 for weight_index in range(len(neuron.weights)):
                     neuron.weights[weight_index] += neuron.learning_rate * delta * neuron.last_inputs[weight_index]
+                if (neuron.weights != keepweights):
+                    print("WEIGHTS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
+                keep = neuron.bias
                 neuron.bias += neuron.learning_rate * delta
+                if (neuron.bias != keep):
+                    print("BIAS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
             deltas = new_deltas
 
     def save_network(self, filepath : str = "neural_network_1.nn") -> None:
