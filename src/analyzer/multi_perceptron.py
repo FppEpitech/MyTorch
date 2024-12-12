@@ -81,16 +81,16 @@ class multiNeuron:
             quadratic_error: float = target[i] - prediction[i]
             output_delta: float = quadratic_error * sigmoid_derivative(prediction[i])
             if (output_delta > 0):
-                print("OUTPUT DELTA BORDEL FJKDQLMFJDKLQFMJD")
+                print("OUTPUT DELTA FJKDQLMFJDKLQFMJD")
             keepweights = neuron.weights.copy()
             for weight_index in range(len(neuron.weights)):
                 neuron.weights[weight_index] += neuron.learning_rate * output_delta * neuron.last_inputs[weight_index]
             if (neuron.weights != keepweights):
-                print("WEIGHTS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
+                print("WEIGHTS UPDATED FJKDQLMFJDKLQFMJD")
             keep = neuron.bias
             neuron.bias += neuron.learning_rate * output_delta
             if (neuron.bias != keep):
-                print("BIAS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
+                print("BIAS UPDATED FJKDQLMFJDKLQFMJD")
             deltas.append(output_delta)
 
         for layer_index in range(len(self.neural_network) - 2, -1, -1):
@@ -106,7 +106,7 @@ class multiNeuron:
                 )
                 delta = error * sigmoid_derivative(neuron.last_activation)
                 if error != 0:
-                    print("ERROR BORDEL FJKDQLMFJDKLQFMJD")
+                    print("ERROR FJKDQLMFJDKLQFMJD")
                 new_deltas.append(delta)
                 keepweights = neuron.weights.copy()
                 for weight_index in range(len(neuron.weights)):
@@ -117,11 +117,11 @@ class multiNeuron:
                     # print("----------------")
                     neuron.weights[weight_index] += neuron.learning_rate * delta * neuron.last_inputs[weight_index]
                 if (neuron.weights != keepweights):
-                    print("WEIGHTS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
+                    print("WEIGHTS UPDATED FJKDQLMFJDKLQFMJD")
                 keep = neuron.bias
                 neuron.bias += neuron.learning_rate * delta
                 if (neuron.bias != keep):
-                    print("BIAS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
+                    print("BIAS UPDATED FJKDQLMFJDKLQFMJD")
             deltas = new_deltas
 
     def save_network(self, filepath : str = "neural_network_1.nn") -> None:
