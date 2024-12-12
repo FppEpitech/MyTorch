@@ -47,7 +47,7 @@ def main():
             input = board + [board_state.turn, board_state.halfmoveclock, board_state.fullmove]
             inputs.append(input)
         mlp.train(inputs, targets, PERIOD)
-        # mlp.save(command[1]) TODO : save the MLP in the file
+        mlp.save_network(command[1])
 
     elif command[0] == Mode.TRAIN_SAVE:
         mlp = multiNeuron(command[2])
@@ -60,7 +60,7 @@ def main():
             input = board + [board_state.turn, board_state.halfmoveclock, board_state.fullmove]
             inputs.append(input)
         mlp.train(inputs, targets, PERIOD)
-        # mlp.save(command[1]) TODO : save the MLP in the file
+        mlp.save_network(command[1])
 
     else:
         print("Error: Wrong mode.")

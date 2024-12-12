@@ -1,6 +1,6 @@
-import random
 import sys
 import math
+import json
 
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
@@ -12,12 +12,15 @@ def heaviside(x):
     return 1 if x >= 0 else 0
 
 def heaviside_derivative(x):
+    # TODO: Check if this is correct
     return 1
 
 def relu(x):
+    # TODO: Check if this is correct
     return max(0, x)
 
 def relu_derivative(x):
+    # TODO: Check if this is correct
     return 1 if x > 0 else 0
 
 class Perceptron:
@@ -27,6 +30,7 @@ class Perceptron:
         self.learning_rate = learning_rate
         self.last_activation = 0
         self.last_inputs = []
+        self.activation_function_type = activation_function
         self.activation_function = None
         self.activation_derivative = None
         if (activation_function == "SIGMOID"):
@@ -44,7 +48,7 @@ class Perceptron:
 
     def predict(self, inputs):
         if (len(inputs) != len(self.weights)):
-            print("Error: Number of inputs must be the same as weight", file=sys.stderr)
+            print(f"Error: Number of inputs ({len(inputs)}) must be the same as weight ({len(self.weights)})", file=sys.stderr)
             sys.exit(84)
         sum_prediction = 0
         self.last_inputs = inputs
@@ -53,3 +57,11 @@ class Perceptron:
         sum_prediction += self.bias
         self.last_activation = self.activation_function(sum_prediction)
         return self.last_activation
+
+    def save_state(self) -> str:
+        state = {
+            "weights": self.weights,
+            "bias": self.bias,
+            "activation_function": self.activation_function_type
+        }
+        return json.dumps(state)

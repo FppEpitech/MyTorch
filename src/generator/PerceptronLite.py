@@ -7,7 +7,7 @@ class PerceptronLite:
         self.bias : int = random.uniform(-1, 1)
         self.activation_function : str = activation_function
 
-    def save_state(self, filename="perceptron_state.json") -> str:
+    def save_state(self) -> str:
         state = {
             "weights": self.weights,
             "bias": self.bias,

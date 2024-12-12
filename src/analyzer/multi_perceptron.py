@@ -7,6 +7,7 @@ class multiNeuron:
 
     def __init__(self, loading_file: str) -> None:
         self.neural_network : list[list[Perceptron]] = []
+        self.learning_rate : int = 0
         self.init_network(loading_file)
 
     def init_network(self, loading_file: str) -> None:
@@ -15,6 +16,8 @@ class multiNeuron:
 
         learning_rate : int = json_data["learning_rate"]
         layouts : list[list[dict]] = json_data["layouts"]
+
+        self.learning_rate = learning_rate
 
         index : int = 0
         for layout in layouts:
@@ -99,5 +102,14 @@ class multiNeuron:
                 neuron.bias += neuron.learning_rate * delta
             deltas = new_deltas
 
-    def save(self):
-        pass
+    def save_network(self, filepath : str = "neural_network_1.nn") -> None:
+        network_data = {
+            "learning_rate": self.learning_rate,
+            "layouts": [
+                        [
+                            json.loads(perceptron.save_state()) for perceptron in layout
+                        ] for layout in self.neural_network
+            ]
+        }
+        with open(filepath, "w") as file:
+            json.dump(network_data, file, indent=4)
