@@ -105,9 +105,16 @@ class multiNeuron:
                     for next_neuron_index, next_neuron in enumerate(next_layer)
                 )
                 delta = error * sigmoid_derivative(neuron.last_activation)
+                if error != 0:
+                    print("ERROR BORDEL FJKDQLMFJDKLQFMJD")
                 new_deltas.append(delta)
                 keepweights = neuron.weights.copy()
                 for weight_index in range(len(neuron.weights)):
+                    # print("----------------")
+                    # print(neuron.weights[weight_index])
+                    # print(neuron.learning_rate)
+                    # print(delta)
+                    # print("----------------")
                     neuron.weights[weight_index] += neuron.learning_rate * delta * neuron.last_inputs[weight_index]
                 if (neuron.weights != keepweights):
                     print("WEIGHTS UPDATED BORDEL FJKDQLMFJDKLQFMJD")
