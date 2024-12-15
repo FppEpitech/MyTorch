@@ -3,7 +3,11 @@ import math
 import json
 
 def sigmoid(x):
-    return 1 / (1 + math.exp(-x))
+    if x >= 0:
+        return 1 / (1 + math.exp(-x))
+    else:
+        exp_x = math.exp(x)
+        return exp_x / (1 + exp_x)
 
 def sigmoid_derivative(x):
     return x * (1 - x)
