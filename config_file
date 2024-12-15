@@ -1,5 +1,8 @@
 nb_inputs=67
-nb_layers=1
+nb_layers=4
 learning_rate=0.01
 nb_output_neurons=6
-nb_neuron_layout_1=4, SIGMOID
+nb_neuron_layout_1=8, SIGMOID
+nb_neuron_layout_2=8, SIGMOID
+nb_neuron_layout_3=8, SIGMOID
+nb_neuron_layout_4=6, SIGMOID
