@@ -11,9 +11,8 @@ def sigmoid_derivative(x):
 def heaviside(x):
     return 1 if x >= 0 else 0
 
-def heaviside_derivative(x):
-    # TODO: Check if this is correct
-    return 1
+def heaviside_derivative(x, epsilon=1e-3):
+    return (1 / (math.sqrt(math.pi) * 0.01)) * math.exp(-(x / 0.01)**2)
 
 def relu(x):
     # TODO: Check if this is correct

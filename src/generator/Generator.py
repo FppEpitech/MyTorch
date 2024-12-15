@@ -24,9 +24,9 @@ class Generator :
             nb_last_input = nb_neurons_in_layer
             layer_iterator += 1
 
-        self.neural_network.append([PerceptronLite(nb_last_input, 'HEAVYSIDE')])
+        self.neural_network.append([PerceptronLite(nb_last_input, 'SIGMOID')])
         for _ in range(self.nb_output_neurons - 1):
-            self.neural_network[layer_iterator].append(PerceptronLite(nb_last_input, 'HEAVYSIDE'))
+            self.neural_network[layer_iterator].append(PerceptronLite(nb_last_input, 'SIGMOID'))
 
     def save_network(self, filepath : str = "neural_network_1.nn") -> None:
         network_data = {
