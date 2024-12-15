@@ -7,7 +7,7 @@ from src.commandParsing.commandParsing import *
 from src.analyzer.multi_perceptron import multiNeuron
 from src.datasetParsing.datasetParsing import *
 
-PERIOD = 2
+PERIOD = 100
 
 def display_result(outputs : list[int]) -> None:
     if (len(outputs) != 6):

@@ -1,0 +1,5 @@
+nb_inputs=67
+nb_layers=1
+learning_rate=0.01
+nb_output_neurons=6
+nb_neuron_layout_1=4, SIGMOID
